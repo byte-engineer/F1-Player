@@ -3,17 +3,26 @@
 
 
 #include <iostream>
-#include <SFML/Graphics.hpp>
+#include <thread>
+#include <chrono>
+
+#include "SFML/Graphics.hpp"
+
+using namespace std::chrono_literals;
 
 
 int main() {
 
-    // File name with extnsion
+    // File name
     int width, height, channels;
     const char* imageFile = "example.png";
 
-    sf::RenderWindow mainWindow(sf::VideoMode({ 800, 600 }), "F1-Player");
+    sf::RenderWindow mainWindow(sf::VideoMode( {1920/2, 1080/2} ), "F1-Player");
     mainWindow.setFramerateLimit(60);
+
+
+    sf::Image image(imageFile);
+    sf::Texture texture(image);
 
     while (mainWindow.isOpen()) {
 
@@ -26,10 +35,28 @@ int main() {
                 mainWindow.close();
             }
         }
-        
-        mainWindow.clear(sf::Color::Black);
-        mainWindow.display();
 
+        // Drawing in back buffer
+        sf::Sprite sprite(texture);
+        
+        
+        sprite.setScale({
+            (float)(mainWindow.getSize().x) / texture.getSize().x,
+            (float)(mainWindow.getSize().y) / texture.getSize().y
+        });
+        
+        
+        sprite.setPosition({
+            ((mainWindow.getSize().x - texture.getSize().x) / 2.0f), 
+            ((mainWindow.getSize().y - texture.getSize().y) / 2.0f)
+        });
+
+        
+        
+        mainWindow.draw(sprite);
+        
+        // Swap the back buffer.
+        mainWindow.display();
     }
 
     std::cout << "Done" << "\n\n";
