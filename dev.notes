@@ -1,0 +1,6 @@
+.\trush\mingw64\bin\g++.exe -o main.exe .\src\main.cpp -Ivendor\include -Lvendor\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -DSFML_STATIC -lwinmm -lopengl32 -lgdi32 -lfreetype -std=c++23 --static
+
+
+// setup SFML.
+// Decode the input. 
+ 
