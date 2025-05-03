@@ -1,5 +1,5 @@
 // src/main.cpp
-// clang++ --target=x86_64-w64-mingw32 -o main .\src\main.cpp -Ivendor\include -Lvendor\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -DSFML_STATIC -lwinmm -lopengl32 -lgdi32 -lfreetype -std=c++23 --static -pthread
+// g++ -o main .\src\main.cpp -Ivendor\include -Lvendor\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -DSFML_STATIC -lwinmm -lopengl32 -lgdi32 -lfreetype -std=c++23 --static -pthread -Os
 
 
 #include <iostream>
@@ -11,23 +11,48 @@
 using namespace std::chrono_literals;
 
 
-int main() {
+sf::Sprite alignSprite();
 
+int main(int argc, char* argv[]) {
+    
+    std::string imageFile;
+    
     // File name
-    int width, height, channels;
-    const char* imageFile = "example.png";
+    if (argc < 2) {
+        imageFile = "example.png";
+    } else {
+        imageFile = argv[1];
+    }
 
-    sf::RenderWindow mainWindow(sf::VideoMode( {1920/2, 1080/2} ), "F1-Player");
+    sf::ContextSettings settings;
+    settings.antiAliasingLevel = 400;
+
+    // Create the window
+    sf::RenderWindow mainWindow(sf::VideoMode({1920/2, 1080/2}), "F1-Player",sf::State::Windowed ,  settings);
     mainWindow.setFramerateLimit(60);
 
+    
 
-    sf::Image image(imageFile);
-    sf::Texture texture(image);
+    // Load the image and create the texture
+    sf::Image image;
+    if (!image.loadFromFile(imageFile)) {
+        std::cerr << "Error loading image file!" << std::endl;
+        return -1; // Return an error code if loading fails
+    }
 
+
+    sf::Texture texture;
+    if (!texture.loadFromImage(image)) {
+        std::cerr << "Error loading texture from image!" << std::endl;
+        return -1;
+    }
+
+    std::this_thread::sleep_for(300ms);
+
+    // Main loop
     while (mainWindow.isOpen()) {
-
-        // Handel the events.
-        while (std::optional event =  mainWindow.pollEvent()) {
+        // Handle events
+        while ( std::optional event = mainWindow.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
                 mainWindow.close();
             }
@@ -36,28 +61,58 @@ int main() {
             }
         }
 
-        // Drawing in back buffer
-        sf::Sprite sprite(texture);
-        
-        
-        sprite.setScale({
-            (float)(mainWindow.getSize().x) / texture.getSize().x,
-            (float)(mainWindow.getSize().y) / texture.getSize().y
-        });
-        
-        
-        sprite.setPosition({
-            ((mainWindow.getSize().x - texture.getSize().x) / 2.0f), 
-            ((mainWindow.getSize().y - texture.getSize().y) / 2.0f)
-        });
+        sf::Vector2i mousePosition = sf::Mouse::getPosition(mainWindow);
 
+        // Draw the texture in the window
+        sf::Sprite sprite(texture);
+
+
+        // --------------------------------------------------------------<<
         
+        sprite.setOrigin({0, 0});
+        sprite.setPosition({0, 0});
+
+        sprite.setScale({
+            mainWindow.getSize().x/texture.getSize().x,
+            mainWindow.getSize().y/texture.getSize().y });
+            
+        // sprite.setOrigin(sprite.Gety)
+
+        // --------------------------------------------------------------<<
+
+
+        // sprite.setOrigin((sf::Vector2f)mousePosition);       // {mainWindow.getSize().x/2, mainWindow.getSize().y/2}
+
+        // Center the sprite in the window
+        // sprite.setPosition({
+        //     ((mainWindow.getSize().x - texture.getSize().x) * sprite.getScale().x) / 2.0f,
+        //     ((mainWindow.getSize().y - texture.getSize().y) * sprite.getScale().y) / 2.0f
+        // });
+
+
+        // // Scale the sprite to fit the window size
+        // sprite.setScale({
+        //     (float)(mainWindow.getSize().x) / texture.getSize().x,
+        //     (float)(mainWindow.getSize().y) / texture.getSize().y
+        // });
         
+
+        // Clear the window
+        mainWindow.clear();
+        
+        // Draw the sprite
         mainWindow.draw(sprite);
-        
-        // Swap the back buffer.
+
+        // Swap the back buffer
         mainWindow.display();
     }
 
     std::cout << "Done" << "\n\n";
+}
+
+
+
+
+sf::Sprite alignSprite(sf::Sprite& sprite, const sf::Vector2u windowSize) {
+
 }
