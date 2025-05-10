@@ -1,6 +1,8 @@
-.\trush\mingw64\bin\g++.exe -o main.exe .\src\main.cpp -Ivendor\include -Lvendor\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -DSFML_STATIC -lwinmm -lopengl32 -lgdi32 -lfreetype -std=c++23 --static
+<<g++ -o main .\src\main.cpp -Ivendor\include -Lvendor\lib -std=c++23 --static -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -DSFML_STATIC -lwinmm -lopengl32 -lgdi32 -lfreetype
+
+<<g++ -o out .\src\imageTest.cpp -Ivendor\include -Lvendor\lib -l"avcodec.dll" -l"avutil.dll" -l"avformat"
 
 
 // setup SFML.
-// Decode the input. 
+// Decode the input.
  

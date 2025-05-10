@@ -96,6 +96,8 @@
         "typeindex": "cpp",
         "typeinfo": "cpp",
         "valarray": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "timestamp.h": "c",
+        "avformat.h": "c"
     }
 }

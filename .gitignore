@@ -1,3 +1,11 @@
 build
 run.bat
 trush
+.vscode
+dev.notes
+main.exe
+examlpe*
+vendor
+*lib*.a
+out
+electron/node_modules/

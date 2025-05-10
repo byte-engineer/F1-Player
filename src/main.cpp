@@ -1,20 +1,22 @@
 // src/main.cpp
-// g++ -o main .\src\main.cpp -Ivendor\include -Lvendor\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -DSFML_STATIC -lwinmm -lopengl32 -lgdi32 -lfreetype -std=c++23 --static -pthread -Os
 
 
 #include <iostream>
 #include <thread>
 #include <chrono>
 
+
 #include "SFML/Graphics.hpp"
+// #include "vendor/imgui-sfml-3/imgui-SFML.h"
+
 
 using namespace std::chrono_literals;
 
 
 sf::Sprite alignSprite();
 
+
 int main(int argc, char* argv[]) {
-    
     std::string imageFile;
     
     // File name
@@ -72,11 +74,21 @@ int main(int argc, char* argv[]) {
         sprite.setOrigin({0, 0});
         sprite.setPosition({0, 0});
 
+        
+
         sprite.setScale({
             mainWindow.getSize().x/texture.getSize().x,
             mainWindow.getSize().y/texture.getSize().y });
+
+        if (mainWindow.getSize().x <= texture.getSize().x
+        or  mainWindow.getSize().y <= texture.getSize().y) {
+            texture.resize(mainWindow.getSize());
+            sprite.setTexture(texture);    
+        } 
             
         // sprite.setOrigin(sprite.Gety)
+
+        
 
         // --------------------------------------------------------------<<
 
@@ -109,9 +121,6 @@ int main(int argc, char* argv[]) {
 
     std::cout << "Done" << "\n\n";
 }
-
-
-
 
 sf::Sprite alignSprite(sf::Sprite& sprite, const sf::Vector2u windowSize) {
 
