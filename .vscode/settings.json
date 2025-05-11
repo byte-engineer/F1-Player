@@ -98,6 +98,7 @@
         "valarray": "cpp",
         "variant": "cpp",
         "timestamp.h": "c",
-        "avformat.h": "c"
+        "avformat.h": "c",
+        "parser.h": "c"
     }
 }

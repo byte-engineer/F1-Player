@@ -1,8 +1,20 @@
-<<g++ -o main .\src\main.cpp -Ivendor\include -Lvendor\lib -std=c++23 --static -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -DSFML_STATIC -lwinmm -lopengl32 -lgdi32 -lfreetype
+`g++ -o main .\src\main.cpp -Ivendor\include -Lvendor\lib -std=c++23 --static -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -DSFML_STATIC -lwinmm -lopengl32 -lgdi32 -lfreetype`
 
-<<g++ -o out .\src\imageTest.cpp -Ivendor\include -Lvendor\lib -l"avcodec.dll" -l"avutil.dll" -l"avformat"
+`g++ -o out .\src\imageTest.cpp -Ivendor\include -Lvendor\lib -l"avcodec.dll" -l"avutil.dll" -l"avformat"`
+
+`g++ -o main .\src\ffm.cpp -Ivendor\include -Lvendor\lib -std=c++23 --static -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -DSFML_STATIC -lwinmm -lopengl32 -lgdi32 -lfreetype -Ivendor\include -Lvendor\lib -l"avcodec.dll" -l"avutil.dll" -l"avformat.dll" -l"swscale.dll"`
+
+g++ -o main .\src\ffm.cpp -Ivendor\include -Lvendor\slib -std=c++23 --static -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -DSFML_STATIC -lwinmm -lopengl32 -lgdi32 -lfreetype -Ivendor\include -Lvendor\lib -l"avcodec" -l"avutil" -l"avformat" -l"swscale"
 
 
+<!--Steps -->
 // setup SFML.
 // Decode the input.
  
+
+
+```cpp
+// this function allows us to alocater the AVPacket struct.
+AVPacket *av_packet_alloc();       // AVPacket is a structure used to store encoded data.
+void      av_packet_free(&pkt);    // Free the alocated packet.
+```
